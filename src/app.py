@@ -24,7 +24,7 @@ from flask import (
 SRC_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SRC_DIR))
 
-from extract_features import extract_all_features, flatten_features
+from extract_features import extract_all, flatten
 from retrieval import query_database, FEATURE_GROUPS
 
 BASE_DIR = SRC_DIR.parent
@@ -87,11 +87,11 @@ def api_retrieve():
     f.save(upload_path)
 
     try:
-        features = extract_all_features(upload_path)
+        features = extract_all(upload_path)
         if features is None:
             return jsonify({"error": "Could not extract features from audio file"}), 422
 
-        vectors = flatten_features(features)
+        vectors = flatten(features)
         results = query_database(vectors, top_k=5)
 
         # Convert results for JSON serialization

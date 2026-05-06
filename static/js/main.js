@@ -1,14 +1,13 @@
 /* ── JavaScript for Animal Sound MMDB UI ─────────────────────────── */
 
 const FEATURE_GROUPS = [
-  "frequency","amplitude","temporal","spectral",
-  "waveform","complexity","timbre","brightness","attack","decay"
+  "mfcc","centroid","bandwidth","rolloff","contrast",
+  "zcr","rms","chroma","attack","decay"
 ];
 
 const FEATURE_ICONS = {
-  frequency:"🎵", amplitude:"📊", temporal:"⏱️", spectral:"🌈",
-  waveform:"〰️", complexity:"🔀", timbre:"🎨", brightness:"✨",
-  attack:"⚡", decay:"📉"
+  mfcc:"🌈", centroid:"🎯", bandwidth:"↔️", rolloff:"📉", contrast:"🌗",
+  zcr:"〰️", rms:"📊", chroma:"🎵", attack:"⚡", decay:"📉"
 };
 
 /* ── DOM refs ─────────────────────────────────────────────────────── */
