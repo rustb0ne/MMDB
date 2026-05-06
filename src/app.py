@@ -147,7 +147,9 @@ def stream_audio(record_id: int):
     if row is None:
         abort(404)
 
-    filepath = Path(row[0])
+    stored = row[0]
+    # Support both relative paths (new, portable) and absolute paths (legacy)
+    filepath = Path(stored) if Path(stored).is_absolute() else BASE_DIR / stored
     if not filepath.exists():
         abort(404)
 

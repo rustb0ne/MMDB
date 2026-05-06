@@ -412,7 +412,9 @@ def build_database():
             errors += 1
             continue
 
-        insert(conn, fp.name, species, str(fp), features)
+        # Store path relative to BASE_DIR for portability across machines
+        rel_path = fp.relative_to(BASE_DIR).as_posix()  # e.g. "dataset/cat/file.wav"
+        insert(conn, fp.name, species, rel_path, features)
         records.append({
             "filename": fp.name,
             "species":  species,

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Database & extracted features (lớn, regenerate được)
+features_db/animal_sounds.db
+features_db/features.json
+
+# Temp uploads
+query/
+
+# Sample/temp scripts
+src/sample_features.py
+
+# Markdown reports (optional: bỏ dấu # nếu muốn track)
+# bao_cao_phan*.md
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
