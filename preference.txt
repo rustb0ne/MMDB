@@ -1,0 +1,366 @@
+LÝ DO RA ĐỜI CỦA HỆ THỐNG
+Trong thời đại công nghệ số hóa ngày nay, việc quản lý và tìm kiếm dữ liệu âm
+thanh trở nên ngày càng quan trọng đối với nhiều lĩnh vực ứng dụng như y tế, công
+nghệ, an ninh, và giải trí. Hệ thống lưu trữ và nhận diện tiếng động cơ ra đời nhằm
+mục đích cung cấp một giải pháp hiệu quả cho việc quản lý và tìm kiếm dữ liệu âm
+thanh, đặc biệt là trong việc nhận diện các tiếng động cơ.
+Trong nhiều lĩnh vực ứng dụng như sản xuất, giám sát, và dịch vụ bảo trì, việc
+nhận diện và phân loại các tiếng động cơ là một yếu tố quan trọng để đảm bảo hoạt
+động hiệu quả và an toàn của các hệ thống và thiết bị. Tuy nhiên, việc thực hiện điều
+này thường gặp phải nhiều thách thức:
+ Khối lượng lớn dữ liệu: Dữ liệu âm thanh thu thập từ các cảm biến hoặc thiết
+bị có thể lớn và đa dạng, đòi hỏi một hệ thống quản lý dữ liệu mạnh mẽ để lưu
+trữ và truy xuất dữ liệu một cách hiệu quả.
+ Phân tích và nhận diện: Việc phân tích và nhận diện các đặc điểm của dữ liệu
+âm thanh, như tần số, biên độ, phổ âm, thời gian…v…v… đòi hỏi các phương
+pháp và công nghệ phức tạp để trích xuất thông tin có ý nghĩa từ dữ liệu đó.
+ Tìm kiếm và so khớp: Việc tìm kiếm và so khớp dữ liệu âm thanh với các mẫu
+có sẵn đòi hỏi một hệ thống tìm kiếm hiệu quả.
+Hệ thống được phát triển nhằm giải quyết những thách thức trên bằng cách cung cấp
+các tính năng và công cụ sau:
+ Lưu trữ và quản lý dữ liệu: Hệ thống cung cấp một cơ sở dữ liệu mạnh mẽ để
+lưu trữ và quản lý dữ liệu âm thanh một cách hiệu quả, bao gồm việc tổ chức,
+phân loại, và gán nhãn dữ liệu.
+ Trích xuất đặc trưng: Hệ thống cung cấp các phương pháp và công cụ để trích
+xuất các đặc trưng quan trọng từ dữ liệu âm thanh, như tần số, biên độ, và phổ
+âm...v…v… để làm cơ sở cho việc nhận diện và phân loại.
+ Hệ thống cung cấp khả năng tìm kiếm và so khớp để tìm kiếm các mẫu âm
+thanh tương tự hoặc cùng loại trong cơ sở dữ liệu.
+1
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546Mục Lục
+LÝ DO RA ĐỜI CỦA HỆ THỐNG..............................................................................................................1
+PHẦN 1: GIỚI THIỆU HỆ THỐNG.............................................................................................................3
+I. Bộ dữ liệu.................................................................................................................................................3
+1. Mô tả tổng quan..................................................................................................................................3
+2. Định dạng và cấu trúc........................................................................................................................3
+3. Mục đích sử dụng...............................................................................................................................3
+II. Bộ thuộc tính để nhận diện tiếng động cơ...........................................................................................3
+1. Tần số..................................................................................................................................................3
+2. Biên độ.................................................................................................................................................3
+3. Thời gian.............................................................................................................................................3
+4. Phổ âm.................................................................................................................................................4
+5. Hình dạng (Waveform)......................................................................................................................4
+6. Độ phức tạp (Complexity)..................................................................................................................4
+7. Biên độ màu (Timbre)........................................................................................................................4
+8. Đô chói (Brightness)...........................................................................................................................5
+9. Độ chạy (Attack).................................................................................................................................5
+10. Độ suy giảm (Decay).........................................................................................................................5
+PH숃N 2: Xây dựng hệ thống tìm kiếm tiếng động cơ.................................................................................6
+I. Sơ đồ khối của hệ thống và quy trình thực hiện yêu cầu của đề bài...................................................6
+1. Sơ đồ khối của hệ thống.....................................................................................................................6
+2. Quy trình thực hiện tìm kiếm âm thanh động cơ.............................................................................6
+II. Quá trình trích rút, lưu trữ và sử dụng các thuộc tính để tìm kiếm âm thanh trong hệ thống.......7
+1. Trích rút các thuộc tính.....................................................................................................................7
+2. Lưu trữ..............................................................................................................................................11
+3. Tìm kiếm âm thanh trong hệ thống................................................................................................11
+PH숃N 3: Demo hệ thống.............................................................................................................................12
+PH숃N 4: KẾT LUẬN..................................................................................................................................13
+I. Định hướng trong tương lai.............................................................................................................13
+II. Lời cảm ơn:...................................................................................................................................13
+Tài liệu tham khảo.......................................................................................................................................14
+2
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546PHẦN 1: GIỚI THIỆU HỆ THỐNG
+I. Bộ dữ liệu
+1. Mô tả tổng quan
+Bộ dữ liệu âm thanh được sử dụng trong dự án là một tập hợp gồm 150 tệp âm
+thanh khác nhau được thu thập để phục vụ cho mục đích của hệ thống. Mỗi tệp âm
+thanh trong bộ dữ liệu chỉ gồm tiếng của 1 loại động cơ.
+2. Định dạng và cấu trúc
+Mỗi tệp âm thanh trong bộ dữ liệu được lưu trữ dưới dạng tệp âm thanh kỹ thuật
+số, với định dạng phổ biến như MP3. Mỗi tệp âm thanh có cùng độ dài (15s) và
+định dạng để đảm bảo tính đồng nhất của dữ liệu.
+3. Mục đích sử dụng
+Bộ dữ liệu được sử dụng để phục vụ hệ thống trong việc nhận diện và phân loại các
+tiếng động cơ khác nhau.
+II. Bộ thuộc tính để nhận diện tiếng động cơ
+1. Tần số
+A, Tổng quan:
+Tần số là một khái niệm quan trọng đo lường tần số dao động của sóng âm thanh.
+Tần số được đo bằng hertz (Hz) và biểu thị số lần dao động của sóng âm thanh
+trong một đơn vị thời gian. Tần số càng cao, âm thanh càng cao, và ngược lại.
+B, Các đặc trưng của tần số:
+ Tần Số Trung Bình
+ Đỉnh tần số
+2. Biên độ
+A, Tổng quan:
+Biên độ đề cập đến độ lớn của dao động âm thanh, biểu thị sự biến đổi cường độ
+của âm thanh theo thời gian. Biên độ thường được đo bằng đơn vị decibel (dB)
+hoặc các đơn vị tương tự, và biểu thị mức độ lớn nhỏ của âm thanh. Đối với âm
+thanh, biên độ càng lớn, âm thanh càng to, và ngược lại.
+B, Các đặc trưng của biên độ:
+ Trung Bình Biên độ (Mean Amplitude)
+ Biên độ Tối Đa (Maximum Amplitude)
+ Biên độ Tối Thiểu (Minimum Amplitude)
+ Phương Sai Biên độ (Variance of Amplitude)
+3. Thời gian
+A, Tổng quan:
+3
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546Thời gian đề cập đến các thông tin về thời gian của tín hiệu âm thanh, biểu thị sự
+biến đổi của âm thanh theo thời gian. Thông tin thời gian thường được sử dụng để
+phân tích các tính chất như độ dài của tín hiệu, thời điểm bắt đầu và kết thúc của
+các sự kiện âm thanh, và các biến đổi âm thanh theo thời gian.
+B, Các đặc trưng của thời gian:
+ Độ Dài của tín hiệu(Duration)
+ Thời gian của mỗi mẫu âm thanh (Sample time)
+4. Phổ âm
+A, Tổng quan:
+Tần số là một khái niệm quan trọng đo lường tần số dao động của sóng âm thanh.
+Tần số được đo bằng hertz (Hz) và biểu thị số lần dao động của sóng âm thanh
+trong một đơn vị thời gian. Tần số càng cao, âm thanh càng cao, và ngược lại.
+B, Các đặc trưng của tần số:
+ Centroid (Trọng tâm phổ)
+ Bandwidth (Băng thông phổ)
+ Contrast (Tương phản phổ)
+ Rolloff (Độ suy giảm phổ)
+ MFCCs (Mel-frequency cepstral coefficients - Hệ số cepstral tần số Mel)
+5. Hình dạng (Waveform)
+A, Tổng quan:
+Hình dạng (Waveform) là biểu đồ biểu diễn sự biến đổi của biên độ của tín hiệu âm
+thanh theo thời gian. Nó thường được thể hiện dưới dạng đường cong liên tục,
+trong đó trục hoành biểu diễn thời gian và trục tung biểu diễn biên độ của tín hiệu..
+B, Các đặc trưng của tần số:
+ Variance (Phương sai)
+ Percentage Above Threshold (Phần trăm trên ngưỡng)
+6. Độ phức tạp (Complexity)
+A, Tổng quan:
+Là mức độ phức tạp của tín hiệu, tức là mức độ đa dạng và phong phú của thông
+tin âm thanh có trong tín hiệu đó. Trong quá trình phân tích tín hiệu âm thanh, Độ
+phức tạp có thể đo lường sự phức tạp của tín hiệu từ nhiều góc độ, bao gồm số
+lượng và phân bố của các đỉnh (peaks), hố (valleys), và các đặc điểm khác.
+B, Các đặc trưng của tần số:
+ Num peaks (Số lượng đỉnh)
+ Num valleys (Số lượng hố)
+7. Biên độ màu (Timbre)
+A, Tổng quan:
+Mô tả các đặc điểm không phải là tần số, thời gian hoặc âm lượng của âm thanh.
+Nó làm cho các âm thanh có cùng tần số và âm lượng khác biệt nhau, điều này làm
+cho mỗi loại âm thanh có một "hương vị" riêng, được gọi là biên độ màu.
+4
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546B, Các đặc trưng của tần số:
+ Max spectrum (Spectrum lớn nhất)
+ Mean spectrum (Spectrum trung bình)
+8. Đô chói (Brightness)
+A, Tổng quan:
+Độ chói (Brightness) là một khái niệm trong xử lý tín hiệu âm thanh để mô tả mức
+độ "sáng" của âm thanh, tức là mức độ năng lượng được phân bố ở các tần số cao
+trong tín hiệu. Điều này liên quan đến cảm giác của âm thanh có tính sắc nét, rõ
+ràng và nổi bật, thường được sử dụng trong việc mô tả tính chất của âm nhạc và
+các hiện tượng âm thanh khác.
+B, Các đặc trưng của tần số:
+ Brightness (Độ chói)
+ Spectral flatness (Sự phẳng của phổ)
+9. Độ chạy (Attack)
+A, Tổng quan:
+Độ chạy (Attack) là một khái niệm trong âm nhạc và xử lý tín hiệu âm thanh để mô
+tả phần đầu của âm thanh, tức là thời gian mà âm thanh mất để đạt đến cường độ
+cao nhất sau khi bắt đầu. Nó thường liên quan đến mức độ nhanh chóng hoặc chậm
+chạp của sự phát triển của âm thanh từ trạng thái yên tĩnh đến trạng thái cực đại.
+B, Các đặc trưng của tần số:
+ Attack time (Thời gian chạy)
+ Max spectrum (Spectrum tối đa)
+10. Độ suy giảm (Decay)
+A, Tổng quan:
+Độ suy giảm (Decay) là một khái niệm xử lý tín hiệu âm thanh để mô tả phần cuối
+của âm thanh, tức là thời gian mà âm thanh mất đi từ cường độ cao nhất sau khi đã
+đạt đến điểm cực đại. Nó thường liên quan đến mức độ giảm dần của âm lượng âm
+thanh sau khi đã đạt đến đỉnh điểm..
+B, Các đặc trưng của tần số:
+ Decay (Sự suy giảm)
+ Volume decay 500ms (Sự suy giảm âm lượng trong 500ms)
+5
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546PH숃N 2: Xây dựng hệ thống tìm kiếm tiếng động cơ
+I. Sơ đồ khối của hệ thống và quy trình thực hiện yêu cầu của đề bài
+1. Sơ đồ khối của hệ thống
+2. Quy trình thực hiện tìm kiếm âm thanh động cơ
+Bước 1: Chọn 1 âm thanh của 1 động cơ nào đó.
+Bước 2: Hệ thống sử dụng biến đổi Fourier để chuyển tín hiệu từ miền thời gian
+sang miền tần số.
+Bước 3: Tín hiệu âm thanh sau khi được chuyển về miền tần số sẽ được trích rút
+các thuộc tính.
+ Mỗi thuộc tính gồm có nhiều đặc trưng đại diện cho thuộc tính đó.
+ Kết thúc quá trình trích rút mỗi tín hiệu âm thanh sẽ gồm các thuộc tính, và
+mỗi thuộc tính sẽ có một vector thể hiện các đặc trưng của nó.
+Bước 4: Với mỗi tín hiệu âm thanh đã trích rút lưu trong CSDL, hệ thống sẽ tiến
+hành đo độ tương đồng Cosine giữa các cặp thuộc tính (vector) tương ứng của nó
+và tín hiệu âm thanh đầu vào.
+Bước 5: Sau khi tính độ tương đồng Cosin cho từng cặp thuộc tính tương ứng thì
+hệ thống sẽ tính độ tương đồng Cosine trung bình của đôi một cặp thuộc tính vừa
+tính toán ở trên, để đưa ra giá trị thể hiện mức độ tương đồng của âm thanh trong
+CSDL với âm thanh đầu vào.
+Lặp lại quá trình cho đến khi hết tất cả các âm thanh lưu trong CSDL.
+Bước 6: Hệ thống sẽ hiển thị 3 âm thanh lấy trong CSDL có mức độ tương đồng
+cao nhất với âm thanh đầu vào, được sắp xếp theo chiều giảm dần về độ tương
+đồng với âm thanh đầu vào.
+6
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546II. Quá trình trích rút, lưu trữ và sử dụng các thuộc tính để tìm
+kiếm âm thanh trong hệ thống.
+1. Trích rút các thuộc tính
+*Biểu diễn dữ liệu âm thanh dưới dạng chuỗi số thể hiện amplitudes
+File âm thanh đang là định dạng mp3, nó cần được chuyển đổi thành dạng tín hiệu mảng các mẫu
+âm thanh trước khi áp dụng biến đổi Fourier.
+Dưới đây là một âm thanh đã được biểu diễn dưới dạng mảng số thực. Mỗi phần tử trong mảng
+này biểu diễn amplitudes (biên độ) của các mẫu âm thanh (thông thường, các file âm thanh có
+tần số lấy mẫu là 44100 Hz hoặc 48000 Hz) tại các điểm thời gian khác nhau.
+VD: Âm thanh dài 15s, tần số lấy mẫu là 44100 Hz, thì số lượng mẫu N = 44100x15. Mảng âm thanh sau
+khi được số hóa sẽ có có M phần tử và mỗi phần tử thứ i của mảng đại diện cho amplitudes của mẫu thứ i
+tại thời điểm cụ thể là i/44100 (s), tiếp tục như vậy cho đến phần tử cuối cùng là N/44100 (s).
+Âm thanh được biểu diễn số hóa
+Dạng dữ liệu của mảng là float32, cho thấy rằng giá trị amplitudes được biểu diễn dưới dạng số
+thực dùng 32-bit cho mỗi phần tử.
+Mỗi phần tử trong mảng này đại diện cho một mẫu âm thanh tại một thời điểm cụ thể. Đây là
+cách mà dữ liệu âm thanh được biểu diễn số hóa, trong đó amplitudes của tín hiệu âm thanh được
+lấy mẫu tại các điểm thời gian liên tục.
+*Áp dụng biến đổi Fourier để chuyển đổi tín hiệu từ miền thời gian sang miền tần số
+Để chuyển đổi tín hiệu từ miền thời gian sang miền tần số cần:
+- Trước tiên, tín hiệu âm thanh cần được biểu diễn dưới dạng dãy các mẫu, tức là giá trị của tín
+hiệu tại các điểm thời gian khác nhau.
+- Sử dụng biến đổi Fourier. Ma trận kết quả sau khi áp dụng biến đổi Fourier cho mảng âm thanh,
+và nó có kích thước (N, M), trong đó:
+ N: Số lượng mẫu âm thanh (tức là số lượng frames hoặc thời điểm) trước khi áp dụng biến đổi
+Fourier.
+ M: Số lượng điểm tần số trong phổ tần số sau khi áp dụng biến đổi Fourier.
+Mỗi phần tử trong ma trận biểu diễn mức độ đóng góp của một tần số cụ thể trong tín hiệu âm
+thanh đó.
+ Hàng của ma trận biểu diễn các mẫu tần số, trong đó hàng thứ i tương ứng với tần số của phần tử
+âm thanh tại thời điểm i.
+ Cột của ma trận biểu diễn các tần số, với cột thứ j tương ứng với mức độ đóng góp của tần số thứ
+j trong tín hiệu âm thanh.
+7
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546 Mỗi phần tử riêng lẻ của ma trận biểu diễn mức độ đóng góp của một tần số cụ thể tại một thời
+điểm cụ thể. Đối với phần tử (i, j), nó cho biết mức độ đóng góp của tần số thứ j tại thời điểm i.
+Kết quả sau khi áp dụng biến đổi Fourier cho tín hiệu âm thanh đã xử lý ở trên.
+*Tính toán đặc trưng của các thuộc tính
+1) Tần số
+Sau khi áp dụng biến đổi Fourier cho âm thanh, dễ dàng tính được tần số trung bình (mean
+frequency) và tần số tối đa (max frequency).
+Tính toán các đặc trưng tần số
+2) Biên độ
+Sử dụng kết quả thu được từ mục Bước biểu diễn dữ liệu âm thanh dưới dạng chuỗi số thể hiện
+amplitudes (biên độ). Tính các đặc trưng biên độ trung bình và biên độ tối đa.
+Tính toán các đặc trưng biên độ
+3) Thời gian
+Sử dụng kết quả thu được từ mục Bước biểu diễn dữ liệu âm thanh dưới dạng chuỗi số ta tính các
+đặc trưng độ dài của tín hiệu âm thanh (duration) và thời gian của mỗi mẫu âm thanh (sample
+rate).
+Độ dài tín hiệu được tính bằng: Tổng số mẫu / tần số lấy mẫu
+ Tổng số mẫu: Số phần tử của âm thanh sau khi được chuyển sang mảng số thực.
+ Tần số lấy mẫu (sample rate): 44100 hz.
+Thời gian mỗi mẫu âm thanh bằng: 1 / tần số lấy mẫu
+8
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546Tính toán các đặc trưng thời gian
+4) Phổ âm
+Sử dụng kết quả sau khi áp dụng biến đổi Fourier cho âm thanh, tính toán các đặc trưng từ phổ
+tần số thu được
+để trích xuất các đặc trưng phổ âm từ các tín hiệu âm thanh:
+ Các Hệ Số Mel-Frequency Cepstral (MFCCs): MFCCs là các hệ số dựa trên tần số Mel
+được tính từ biến đổi Fourier của tín hiệu. Chúng thường được sử dụng trong các ứng
+dụng nhận dạng tiếng nói và âm nhạc.
+ Spectral Centroid: Trọng tâm tần số của phổ tần số, đại diện cho tần số trung bình của tín
+hiệu.
+ Spectral Bandwidth: Độ rộng của phổ tần số, đo lường sự lan rộng của tín hiệu âm thanh
+trong miền tần số.
+ Spectral Contrast: Độ chênh lệch giữa các dải tần số trong phổ, cung cấp thông tin về sự
+biến đổi của âm thanh theo tần số.
+ Spectral Rolloff: Tần số ở đó một phần nhất định của năng lượng phổ được tích lũy (ví
+dụ: 85%).
+Tính toán các đặc trưng phổ âm
+5) Hình dạng (Waveform)
+Sử dụng kết quả thu được từ mục Bước biểu diễn dữ liệu âm thanh dưới dạng chuỗi số, tính các
+đặc trưng của waveform.
+ Độ biến thiên (Variance): Đo lường mức độ biến thiên của tín hiệu âm thanh qua thời
+gian.
+ Các phần trăm thời gian trên ngưỡng (Percentage of Time Above Threshold): Tính phần
+trăm thời gian mà tín hiệu vượt qua một ngưỡng nhất định.
+Tính toán các đặc trưng của Waveform
+9
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|568795466) Độ phức tạp (Complexity)
+Tính số lần xuất hiện của các cực đại và các điểm uốn của tín hiệu.
+Tính toán các đặc trưng độ phức tạp
+7) Biên độ màu (Timbre)
+Sử dụng kết quả của biến đổi Fourier tính các đặc trưng biên độ màu như trung bình, giá trị lớn
+nhất.
+Tính toán các đặc trưng biên độ màu
+8) Đô chói (Brightness)
+Sử dụng kết quả của biến đổi Fourier tính các đặc trưng độ chói, mức độ đồng đều của phổ âm
+(spectral flatness).
+Tính toán các đặc trưng độ chói
+9) Độ chạy (Attack)
+Sử dụng kết quả của biến đổi Fourier tính các đặc trưng vị trí cực đại đầu tiên trong phổ tần số,
+độ lớn cực đại tần số, thời gian phản ứng.
+Tính toán các đặc trưng độ chạy
+10) Độ suy giảm (Decay)
+Sử dụng kết quả của biến đổi Fourier tính các đặc trưng độ suy giảm và tỉ lệ giảm âm lượng sau
+một khoảng thời gian cụ thể.
+Tính toán các đặc trưng độ suy giảm
+10
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|568795462. Lưu trữ
+Sau khi trích xuất các đặc trưng của từng thuộc tính, chúng sẽ được lưu vào trong cơ sở dữ liệu
+MySQL. Dưới dạng mỗi hàng tương ứng với một âm thanh, các cột đại diện cho các thuộc tính
+và giá trị của mỗi cột là một vector thể hiện cho các đặc trưng của thuộc tính đó.
+Nói cách khác mỗi âm thanh gồm các thuộc tính, mỗi thuộc tính là một vector đặc trưng cho các
+đặc trưng của thuộc tính đó.
+3. Tìm kiếm âm thanh trong hệ thống.
+Sau khi lưu trữ vào cơ sở dữ liệu ta có mỗi âm thanh gồm các thuộc tính, mỗi thuộc tính là một
+vector đặc trưng cho các đặc trưng của thuộc tính đó. Lúc này để tìm kiếm âm thanh giống với
+âm thanh đầu vào ta làm như sau:
+Bước 1: Trích rút các thuộc tính tương tự cho âm thanh đầu vào.
+Bước 2: Tính độ tương đồng Cosine cho từng cặp thuộc tính tương ứng của âm thanh đầu vào và
+âm thanh trong cơ sở dữ liệu. Kết thúc ta thu được 10 giá trị tương đồng Cosine tương ứng với
+10 thuộc tính của âm thanh.
+Bước 3: Để tìm độ tương đồng cuối cùng đại diện cho mức độ giống nhau của âm thanh đầu vào
+và âm thanh trong CSDL ta lấy trung bình các giá trị Cosine vừa tính được.
+Bước 4: Lặp lại quá trình này cho âm thanh đầu vào với các âm thanh trong CSDL cho đến hết
+CSDL. Tạo một danh sách lưu 3 âm thanh có độ tương đồng cao nhất – được cập nhật liên tục.
+Bước 5: Cuối cùng đề xuất lên 3 âm thanh có độ tương đồng Cosine cao nhất với âm thanh đầu
+vào.
+11
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546PH숃N 3: Demo hệ thống
+- File âm thanh đầu vào sẽ được để trong thư mục “new_sound”
+- Khi chạy chương trình sẽ trích rút các thuộc tính của âm thanh đầu vào tương tự
+như đã làm với các âm thanh trong CSDL.
+- Sau đó sẽ tính toán độ tương đồng để tìm 3 file trong CSDL giống nhất với âm
+thanh đầu vào.
+- Kết quả sẽ hiển thị 3 âm thanh giống nhất, vị trí (ID) của nó trong CSDL và kèm
+theo độ tương đồng Cosine tương ứng như dưới:
+12
+Downloaded by Lê ??c M?nh (osw2147@gmail.com)
+lOMoARcPSD|56879546PH숃N 4: KẾT LUẬN
+I. Định hướng trong tương lai
+Hiện tại, hệ thống tìm kiếm tiếng động cơ có hiệu suất không quá cao, do
+hệ thống phụ thuộc lớn vào việc chọn lọc và trích xuất các đặc trưng phù hợp
+từ dữ liệu âm thanh. Công cụ sử dụng để tính toán độ tương đồng cho kết
+quả chưa quá tốt. Dù có thể đề xuất lên những âm thanh có cấu trúc tương
+đối giống với âm thanh đầu vào nhưng còn đó nhược điểm lớn là nó không
+quá thuyết phục về mặt cảm nhận của người.
+Sắp tới, để hệ thống có hiệu suất cao hơn và có thể mang lại sự thuyết
+phục cho người sử dụng, chúng em sẽ điều chỉnh các đặc trưng được chọn để
+có thể tăng khả năng phân biệt sự tương đồng giữa các loại âm thanh, giúp hệ
+thống phân biệt một cách chính xác hơn. Thêm vào đó, sẽ triển khai hệ thống
+trên app đơn giản để người dùng có thể cài đặt trên thiết bị di động của mình
+để sử dụng cho các mục đích nhận dạng âm thanh động cơ một cách linh
+hoạt, dễ dàng.
+II. Lời cảm ơn:
+Lời đầu tiên, chúng em xin gửi lời cảm ơn sâu sắc đến Học viện Công
+nghệ Bưu chính Viễn thông đã đưa bộ môn Hệ cơ sở dữ liệu đa phương tiện
+vào chương trình giảng dạy. Đặc biệt, chúng em xin bày tỏ lòng biết ơn sâu
+sắc đến giảng viên bộ môn – thầy Nguyễn Đình Hóa đã truyền đạt những kiến
+thức quý giá cho chúng em trong suốt thời gian học tập vừa qua. Trong thời
+gian được tham dự lớp học của thầy, chúng em đã học được nhiều kiến thức
+hay và bổ ích. Đây thực sự là những điều rất cần thiết cho quá trình học tập và
+làm việc sau này của chúng em
+Bộ môn Hệ cơ sở dữ liệu đa phương tiện là một môn học hay và vô
+cùng hữu ích. Tuy nhiên, những kiến thức và kỹ năng về môn học này của
+chúng em vẫn còn nhiều hạn chế. Do đó, bài tập lớn của chúng em khó tránh
+khỏi những sai sót. Kính mong thầy xem xét và góp ý giúp bài tiểu luận của
+chúng em được hoàn thiện hơn.

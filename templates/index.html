@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnimalSoundDB — Animal Sound Retrieval System</title>
+  <meta name="description" content="Multimedia Database system for animal sound storage and retrieval using audio feature extraction and cosine similarity." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <div class="nav-icon">🦁</div>
+    <span class="nav-title">AnimalSound<span class="accent">DB</span></span>
+  </div>
+  <div class="nav-meta">
+    <span class="badge" id="db-count">{{ stats.total }} sounds</span>
+    <span class="badge badge-outline">MMDB Assignment</span>
+  </div>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Multimedia Database System</div>
+      <h1 class="hero-title">
+        Animal Sound<br />
+        <span class="gradient-text">Retrieval System</span>
+      </h1>
+      <p class="hero-subtitle">
+        Upload any animal audio file and instantly find the <strong>5 most acoustically similar</strong>
+        sounds from our database of {{ stats.total }} labeled recordings — powered by multi-feature
+        cosine similarity across 10 acoustic feature groups.
+      </p>
+
+      <!-- Stats pills -->
+      <div class="stat-row">
+        <div class="stat-pill">
+          <span class="stat-num">{{ stats.total }}</span>
+          <span class="stat-lbl">Audio files</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">{{ stats.species | length }}</span>
+          <span class="stat-lbl">Species</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">10</span>
+          <span class="stat-lbl">Feature groups</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-num">Top‑5</span>
+          <span class="stat-lbl">Results returned</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Upload Section ───────────────────────────────────────────── -->
+<section class="upload-section" id="upload">
+  <div class="container">
+    <div class="upload-card" id="upload-card">
+      <div class="upload-inner" id="drop-zone">
+        <div class="upload-icon-wrap">
+          <div class="upload-icon">🎵</div>
+          <div class="upload-ring ring-1"></div>
+          <div class="upload-ring ring-2"></div>
+        </div>
+        <h2 class="upload-title">Drop your audio file here</h2>
+        <p class="upload-sub">Supports WAV, MP3, OGG, FLAC · Max 50 MB</p>
+        <label class="btn-primary" for="file-input" id="choose-btn">
+          Choose Audio File
+        </label>
+        <input type="file" id="file-input" accept=".wav,.mp3,.ogg,.flac" hidden />
+      </div>
+
+      <!-- Processing state -->
+      <div class="upload-processing hidden" id="processing">
+        <div class="spinner-wrap">
+          <div class="spinner"></div>
+          <div class="spinner-inner"></div>
+        </div>
+        <p class="processing-text">Extracting audio features…</p>
+        <div class="processing-steps" id="proc-steps">
+          <div class="proc-step" data-step="fft">🔄 Computing FFT</div>
+          <div class="proc-step" data-step="mfcc">🎛️ Extracting MFCCs</div>
+          <div class="proc-step" data-step="spectral">📊 Spectral analysis</div>
+          <div class="proc-step" data-step="similarity">🔍 Computing similarity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Results Section ──────────────────────────────────────────── -->
+<section class="results-section hidden" id="results-section">
+  <div class="container">
+
+    <!-- Query info bar -->
+    <div class="query-bar" id="query-bar">
+      <div class="query-info">
+        <span class="query-icon">🔊</span>
+        <div>
+          <div class="query-filename" id="q-filename">—</div>
+          <div class="query-label">Query file</div>
+        </div>
+      </div>
+      <button class="btn-ghost" id="new-query-btn">New Query</button>
+    </div>
+
+    <!-- Layout: results + features -->
+    <div class="results-layout">
+
+      <!-- Left: Top-5 results -->
+      <div class="results-col">
+        <h2 class="section-heading">
+          <span class="section-icon">🏆</span> Top‑5 Similar Sounds
+        </h2>
+        <div class="results-list" id="results-list">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Right: Feature breakdown -->
+      <div class="features-col">
+        <h2 class="section-heading">
+          <span class="section-icon">📐</span> Query Feature Snapshot
+        </h2>
+        <div class="feature-accordion" id="feature-accordion">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── System Block Diagram ─────────────────────────────────────── -->
+<section class="diagram-section" id="system">
+  <div class="container">
+    <div class="section-header">
+      <h2>System Architecture</h2>
+      <p>Block diagram and processing workflow of the Animal Sound Retrieval System</p>
+    </div>
+    <div class="diagram-card">
+      <div class="diagram-flow">
+
+        <div class="flow-group">
+          <div class="flow-label">INPUT</div>
+          <div class="flow-node node-input">
+            <div class="node-icon">🎤</div>
+            <div class="node-title">Query Audio File</div>
+            <div class="node-sub">WAV / MP3 / OGG</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-group">
+          <div class="flow-label">STEP 1</div>
+          <div class="flow-node node-process">
+            <div class="node-icon">🔄</div>
+            <div class="node-title">Signal Digitization</div>
+            <div class="node-sub">Load → mono, 22050 Hz<br/>Amplitude array (float32)</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-group">
+          <div class="flow-label">STEP 2</div>
+          <div class="flow-node node-process">
+            <div class="node-icon">📡</div>
+            <div class="node-title">FFT Transform</div>
+            <div class="node-sub">Time domain → Frequency domain<br/>rfft() magnitude spectrum</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-group">
+          <div class="flow-label">STEP 3</div>
+          <div class="flow-node node-feature">
+            <div class="node-icon">🧮</div>
+            <div class="node-title">Feature Extraction</div>
+            <div class="node-sub">10 feature groups<br/>→ 10 feature vectors</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-group">
+          <div class="flow-label">STEP 4</div>
+          <div class="flow-node node-db">
+            <div class="node-icon">🗄️</div>
+            <div class="node-title">SQLite Database</div>
+            <div class="node-sub">500+ records<br/>Pre-extracted feature vectors</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-group">
+          <div class="flow-label">STEP 5</div>
+          <div class="flow-node node-sim">
+            <div class="node-icon">📐</div>
+            <div class="node-title">Cosine Similarity</div>
+            <div class="node-sub">Per group → avg 10 values<br/>Rank all DB records</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow">→</div>
+
+        <div class="flow-group">
+          <div class="flow-label">OUTPUT</div>
+          <div class="flow-node node-output">
+            <div class="node-icon">🏆</div>
+            <div class="node-title">Top‑5 Results</div>
+            <div class="node-sub">Ranked by similarity<br/>Playable audio</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Feature Groups Panel ─────────────────────────────────────── -->
+<section class="features-info-section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2>10 Feature Groups</h2>
+      <p>Rationale and information value of each selected acoustic feature</p>
+    </div>
+    <div class="features-grid">
+      {% set feature_info = [
+        {"id": "1", "name": "Frequency", "icon": "🎵", "color": "#6366f1",
+         "desc": "Mean & peak frequency from FFT spectrum. Distinguishes high-pitched birds from low-frequency cattle.",
+         "feats": ["mean_freq", "peak_freq"]},
+        {"id": "2", "name": "Amplitude", "icon": "📊", "color": "#8b5cf6",
+         "desc": "Signal amplitude statistics. Loud barks vs quiet chirps differ strongly in mean and variance.",
+         "feats": ["mean_amp", "max_amp", "min_amp", "var_amp"]},
+        {"id": "3", "name": "Temporal", "icon": "⏱️", "color": "#a855f7",
+         "desc": "Duration, sample rate, zero-crossing rate. ZCR separates noisy hisses from tonal howls.",
+         "feats": ["duration", "sample_rate", "zero_crossing_rate"]},
+        {"id": "4", "name": "Spectral", "icon": "🌈", "color": "#ec4899",
+         "desc": "MFCCs (13 coeffs), centroid, bandwidth, contrast, rolloff. The richest discriminative features for species classification.",
+         "feats": ["mfcc×13", "centroid", "bandwidth", "contrast×7", "rolloff"]},
+        {"id": "5", "name": "Waveform", "icon": "〰️", "color": "#f43f5e",
+         "desc": "Variance and % time above threshold. Captures signal energy distribution and activity density.",
+         "feats": ["variance", "pct_above_threshold"]},
+        {"id": "6", "name": "Complexity", "icon": "🔀", "color": "#f97316",
+         "desc": "Number of local peaks and valleys. Complex insect sounds have far more peaks than mammal calls.",
+         "feats": ["num_peaks", "num_valleys"]},
+        {"id": "7", "name": "Timbre", "icon": "🎨", "color": "#eab308",
+         "desc": "Max and mean FFT magnitude. Timbre separates instruments and biological sound sources perceptually.",
+         "feats": ["max_spectrum", "mean_spectrum"]},
+        {"id": "8", "name": "Brightness", "icon": "✨", "color": "#22c55e",
+         "desc": "High-frequency energy ratio and spectral flatness. Bird songs are brighter; frog croaks are flatter.",
+         "feats": ["brightness_ratio", "spectral_flatness"]},
+        {"id": "9", "name": "Attack", "icon": "⚡", "color": "#06b6d4",
+         "desc": "Time to peak amplitude and peak magnitude. Fast attack = sharp bark; slow attack = gentle moo.",
+         "feats": ["attack_time", "attack_max_magnitude"]},
+        {"id": "10", "name": "Decay", "icon": "📉", "color": "#3b82f6",
+         "desc": "Ratio of tail energy vs peak energy and 500ms volume drop. Separates sustained howls from short clicks.",
+         "feats": ["decay_ratio", "vol_decay_500ms"]},
+      ] %}
+      {% for fi in feature_info %}
+      <div class="feature-card" style="--accent: {{ fi.color }}">
+        <div class="fc-header">
+          <span class="fc-num">{{ fi.id }}</span>
+          <span class="fc-icon">{{ fi.icon }}</span>
+          <span class="fc-name">{{ fi.name }}</span>
+        </div>
+        <p class="fc-desc">{{ fi.desc }}</p>
+        <div class="fc-feats">
+          {% for f in fi.feats %}
+          <span class="fc-feat-tag">{{ f }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── Species Distribution ─────────────────────────────────────── -->
+<section class="species-section" id="dataset">
+  <div class="container">
+    <div class="section-header">
+      <h2>Dataset Overview</h2>
+      <p>{{ stats.total }} audio files across {{ stats.species | length }} animal species</p>
+    </div>
+    <div class="species-grid" id="species-grid">
+      {% for sp in stats.species %}
+      <div class="species-card">
+        <div class="sp-name">{{ sp.name.replace("_", " ").title() }}</div>
+        <div class="sp-bar-wrap">
+          <div class="sp-bar" style="width: {{ [sp.count * 100 / (stats.total or 1), 100] | min | round(1) }}%"></div>
+        </div>
+        <div class="sp-count">{{ sp.count }} files</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">🦁 AnimalSoundDB</div>
+      <div class="footer-info">
+        MMDB Assignment · Animal Sound Retrieval System<br />
+        Dataset: ESC-50 (CC BY) · Features: librosa · Similarity: Cosine
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Audio player modal -->
+<div class="audio-modal hidden" id="audio-modal">
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-card">
+    <div class="modal-header">
+      <span id="modal-title">Playing…</span>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <audio id="modal-audio" controls style="width:100%"></audio>
+  </div>
+</div>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
